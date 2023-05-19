@@ -42,23 +42,25 @@ function request(method, url, query, callback) {
         callback(this.responseText)
     };
 
-    if (method.toUpperCase() == "POST") {
-        post(request, url, query);
-    } else {
-        get(request, url, query);
-    }
+    method.toUpperCase() == "POST" ? post(request, url, query) : get(request, url, query);
 }
 
 window.onload = function() {
-    request("GET", `${POSTMAN_ECHO_URL}/get`, "hello=there", function(response) {
-        response = JSON.parse(response);
+    let sendButton = document.getElementById("sendButton");
 
-        alert(`args: ${response.args}`);
-    });
+    sendButton.onclick = function() {
+        let method = document.getElementById("method").value;
+        let key = document.getElementById("key").value;
+        let value = document.getElementById("value").value;
+        let query = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 
-    request("POST", `${POSTMAN_ECHO_URL}/post`, "hello=there", function(response) {
-        response = JSON.parse(response);
+        request(method, `${POSTMAN_ECHO_URL}/${method.toLowerCase()}`, query, function(response) {
+            response = JSON.parse(response);
 
-        alert(`form: ${response.form}`);
-    });
+            let responseKey = decodeURIComponent(key);
+            let responseValue = decodeURIComponent(response[method == "POST" ? "form" : "args"][key]);
+
+            document.getElementById("response").innerText = `Echoed: Key: ${responseKey}, Value: ${responseValue}`;
+        })
+    }
 }

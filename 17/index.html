@@ -7,6 +7,20 @@
 </head>
 
 <body>
+    <form>
+        <label for="method">Method: </label>
+        <select id="method" name="Method">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+        </select>
+        <label for="key">Key: </label>
+        <input id="key" type="text"></input>
+        <label for="value">Value: </label>
+        <input id="value" type="text"></input>
+        <br>
+        <input id="sendButton" type="button" value="send"></input>
+    </form>
+    <div id="response"></div>
 </body>
 
 </html>
